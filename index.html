@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maaz Masood Portfolio</title>
+<style>
+:root {
+  --bg: #0b1020; --bg2: #101829; --surface: rgba(255,255,255,0.04); --surface-strong: rgba(255,255,255,0.07);
+  --text: #e8edf7; --muted: #97a3b8; --accent: #6ea8ff; --accent2: #7ef0c8; --border: rgba(255,255,255,0.09);
+  --shadow: 0 20px 60px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f4f6fb; --bg2: #e9eef8; --surface: #ffffff; --surface-strong: #f0f4fb;
+  --text: #17202f; --muted: #5a6478; --accent: #1f5fbf; --accent2: #0f9d7a; --border: rgba(20,30,60,0.12);
+  --shadow: 0 16px 40px rgba(20,30,60,0.10);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  margin: 0; color: var(--text); background: var(--bg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6; min-height: 100vh;
+  background-image: radial-gradient(900px 500px at 10% -10%, rgba(110,168,255,0.16), transparent 60%),
+                    radial-gradient(800px 500px at 110% 10%, rgba(126,240,200,0.10), transparent 60%);
+  background-attachment: fixed;
+}
+a { color: var(--accent); }
+h1, h2, h3 { line-height: 1.25; margin: 0; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+/* Nav */
+.nav {
+  position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  border-bottom: 1px solid var(--border);
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; }
+.brand { font-weight: 700; text-decoration: none; color: var(--text); letter-spacing: -0.01em; }
+.links { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.links::-webkit-scrollbar { display: none; }
+.links a {
+  color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; font-size: 0.92rem; white-space: nowrap;
+  transition: color .2s, background .2s;
+}
+.links a:hover, .links a.active { color: var(--text); background: var(--surface-strong); }
+.theme-btn {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px;
+  width: 40px; height: 40px; cursor: pointer; font-size: 1rem; flex-shrink: 0;
+}
+.theme-btn:focus-visible, .btn:focus-visible, .chip:focus-visible, .tab:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
+/* Hero */
+.hero { padding: 72px 0 40px; }
+.eyebrow { color: var(--accent2); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.hero h1 { font-size: clamp(2.3rem, 6vw, 4rem); margin: 10px 0 12px; letter-spacing: -0.02em; }
+.typed { color: var(--accent); font-size: clamp(1.1rem, 2.6vw, 1.4rem); min-height: 1.8em; }
+.typed::after { content: "|"; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero-summary { color: var(--muted); max-width: 720px; margin: 18px 0 26px; font-size: 1.05rem; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none;
+  padding: 10px 16px; border-radius: 10px; font: inherit; font-size: 0.95rem; cursor: pointer;
+  transition: transform .15s, background .2s, border-color .2s;
+}
+.btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #06101f; font-weight: 600; }
+.btn.copied { border-color: var(--accent2); color: var(--accent2); }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 34px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px;
+}
+.stat .num { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+.stat .lbl { color: var(--muted); font-size: 0.88rem; }
+
+/* Sections */
+section { padding: 56px 0 8px; }
+.sec-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.sec-head h2 { font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -0.01em; }
+.sec-head p { color: var(--muted); margin: 6px 0 0; }
+.reveal { opacity: 1; }
+
+/* Experience timeline */
+.timeline { position: relative; padding-left: 26px; }
+.timeline::before {
+  content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px;
+  background: linear-gradient(var(--accent), var(--accent2));
+}
+.job { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.job::before {
+  content: ""; position: absolute; left: -26px; top: 26px; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); border: 3px solid var(--bg);
+}
+.job h3 { font-size: 1.1rem; }
+.job .meta { color: var(--muted); font-size: 0.9rem; margin: 4px 0 12px; }
+.job ul { margin: 0; padding-left: 20px; color: var(--text); }
+.job li { margin-bottom: 7px; }
+.job li.hl { color: var(--text); }
+.pill { display: inline-block; font-size: 0.78rem; color: var(--accent2); border: 1px solid color-mix(in srgb, var(--accent2) 40%, transparent); padding: 2px 8px; border-radius: 999px; margin-right: 6px; }
+.note { color: var(--muted); font-size: 0.86rem; margin-top: 12px; font-style: italic; }
+
+/* Search and filters */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+.search {
+  flex: 1 1 260px; min-width: 200px; padding: 11px 14px; border-radius: 10px; font: inherit;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+}
+.search::placeholder { color: var(--muted); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab {
+  border: 1px solid var(--border); background: var(--surface); color: var(--muted); padding: 8px 14px;
+  border-radius: 999px; cursor: pointer; font: inherit; font-size: 0.9rem; transition: all .2s;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #06101f; font-weight: 600; }
+.count { color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.card {
+  position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+  transition: transform .25s ease, border-color .25s, box-shadow .25s; display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: var(--shadow); }
+.card[hidden] { display: none; }
+.card .cat { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent2); margin-bottom: 6px; }
+.card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tag { font-size: 0.76rem; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); padding: 3px 9px; border-radius: 6px; }
+.card p { color: var(--muted); margin: 0 0 12px; font-size: 0.95rem; }
+.card .more { display: none; color: var(--text); font-size: 0.93rem; border-top: 1px dashed var(--border); padding-top: 10px; margin-bottom: 10px; }
+.card.open .more { display: block; }
+.toggle {
+  margin-top: auto; align-self: flex-start; background: none; border: none; color: var(--accent); cursor: pointer; padding: 0; font: inherit; font-size: 0.92rem;
+}
+.empty { color: var(--muted); padding: 28px; text-align: center; display: none; }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.skill-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; }
+.skill-box h3 { font-size: 0.98rem; margin-bottom: 12px; color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1px solid var(--border); background: var(--bg2); color: var(--text); border-radius: 999px; padding: 6px 12px;
+  font: inherit; font-size: 0.88rem; cursor: pointer; transition: all .2s;
+}
+.chip:hover { border-color: var(--accent); transform: translateY(-1px); }
+.chip.active { background: var(--accent2); border-color: var(--accent2); color: #062018; font-weight: 600; }
+.chip.static { cursor: default; color: var(--muted); }
+.chip.static:hover { border-color: var(--border); transform: none; }
+.skill-hint { color: var(--muted); font-size: 0.88rem; margin-top: 12px; }
+
+/* Certs */
+.certs { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.cert { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; transition: transform .2s, border-color .2s; }
+.cert:hover { transform: translateY(-3px); border-color: var(--accent2); }
+.cert strong { display: block; margin-bottom: 4px; }
+.cert small { color: var(--muted); }
+.issuer { color: var(--accent2); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; display: block; }
+
+/* Two column */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+.panel h3 { margin-bottom: 12px; }
+.panel ul { margin: 0; padding-left: 20px; }
+.panel li { margin-bottom: 8px; color: var(--text); }
+.panel li small { color: var(--muted); display: block; }
+
+/* Contact */
+.contact-box {
+  text-align: center; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--accent2) 14%, transparent));
+  border: 1px solid var(--border); border-radius: 20px; padding: 40px 24px;
+}
+.contact-box h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 8px; }
+.contact-box p { color: var(--muted); margin: 0 0 22px; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+footer { text-align: center; color: var(--muted); font-size: 0.86rem; padding: 40px 0 24px; }
+
+/* Back to top */
+.totop {
+  position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--surface-strong); color: var(--text); cursor: pointer; font-size: 1.1rem;
+  opacity: 0; transform: translateY(10px); transition: all .3s; pointer-events: none;
+}
+.totop.show { opacity: 1; transform: none; pointer-events: auto; }
+
+/* Progress bar */
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 60; }
+
+@media (max-width: 760px) {
+  .two { grid-template-columns: 1fr; }
+  .links a { padding: 6px 8px; font-size: 0.85rem; }
+  .hero { padding-top: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">MM</a>
+    <div class="links">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#community">Community</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Switch light and dark theme" title="Switch theme">🌙</button>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+
+<header class="hero">
+  <div class="eyebrow">MS in AI and Business Analytics, USF, May 2026</div>
+  <h1>Maaz Masood</h1>
+  <div class="typed" id="typed" aria-live="polite"></div>
+  <p class="hero-summary">I build AI systems that help engineers work faster and more safely. My current focus is a human-in-the-loop AI agent for software incident investigation at Jabil, where I'm bringing the agent to production readiness. I'm open to full-time AI and software engineering roles anywhere in the US.</p>
+  <div class="cta">
+    <a class="btn primary" href="#projects">View projects</a>
+    <a class="btn" href="#contact">Get in touch</a>
+    <a class="btn" href="https://linkedin.com/in/maaz-masood" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num">6</div><div class="lbl">Projects across AI, ML and data</div></div>
+    <div class="stat"><div class="num">300+</div><div class="lbl">Graduate students supported as a TA</div></div>
+    <div class="stat"><div class="num">~200</div><div class="lbl">Applications covered by Power BI reports</div></div>
+    <div class="stat"><div class="num">8+</div><div class="lbl">Certifications across AI, cloud and data</div></div>
+  </div>
+</header>
+
+<section id="experience" class="reveal">
+  <div class="sec-head">
+    <div><h2>Experience</h2><p>Where I've been building and learning</p></div>
+  </div>
+  <div class="timeline">
+    <article class="job">
+      <h3>Software Engineer Intern | Jabil Inc.</h3>
+      <div class="meta">Summer 2026 to Present</div>
+      <ul>
+        <li>Solely developed a human-in-the-loop AI agent that performs confidence-scored root cause analysis on high-priority code incidents, correlating commits and diffs with incident evidence.</li>
+        <li>Designed the agent to be configurable for any code-based application, proposing affected components and code lines, with fixes requiring human approval.</li>
+        <li>Built a REST API integration with Azure DevOps to retrieve live commit data, with controls on how many commits the agent can access, using date-based filtering, to keep API and token costs under control.</li>
+        <li>Implemented cost governance: query cost tracking, budget thresholds, and bounded evidence retrieval, with people approving actions before cost is committed.</li>
+        <li>Built the agent's FastAPI backend, exposing REST endpoints the front end uses to communicate with the agent.</li>
+        <li>Bringing the agent to production readiness for one of Jabil's applications, with planned PR creation and fix generation, all needing human approval.</li>
+        <li>Built a CI/CD pipeline in Azure DevOps for resource creation.</li>
+        <li>Built a Power BI report for teams across a global portfolio of nearly 200 applications, giving visibility into bug age, severity, ownership, and historical trends.</li>
+        <li>Built a Power BI dashboard analyzing ServiceNow ticket logs to identify recurring issue trends.</li>
+        <li>Resolved data quality issues in historical snapshots and bug lifecycle tracking, keeping reporting accurate over time.</li>
+        <li>Collaborated with cross-functional teams to build awareness of agentic AI capabilities and how they can be used cost-effectively and securely in their domains.</li>
+        <li>Collaborated on a computer vision project.</li>
+      </ul>
+      <p class="note">Projected impact, not yet measured in production: reduce mean time to resolution by 40 to 60 percent and save approximately $0.5M per hour of downtime.</p>
+    </article>
+    <article class="job">
+      <h3>Graduate Teaching Assistant | University of South Florida</h3>
+      <div class="meta">Aug 2025 to May 2026</div>
+      <ul>
+        <li>Supported more than 300 graduate students in AI/ML coursework alongside two co-TAs, guiding them through Python for analytics and course projects.</li>
+        <li>Partnered with faculty to build evaluation frameworks and refine course materials.</li>
+        <li>Held weekly 3-hour office hours for undergraduate students.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <div class="sec-head">
+    <div><h2>Projects</h2><p>Filter by category, search by tool, or open a card for details</p></div>
+  </div>
+  <div class="toolbar">
+    <input class="search" id="search" type="search" placeholder="Search projects or tools, e.g. Python, Spark, LangChain" aria-label="Search projects">
+    <div class="tabs" role="group" aria-label="Filter by category">
+      <button class="tab" aria-pressed="true" data-filter="all">All</button>
+      <button class="tab" aria-pressed="false" data-filter="ai">AI and Agents</button>
+      <button class="tab" aria-pressed="false" data-filter="ml">Machine Learning</button>
+      <button class="tab" aria-pressed="false" data-filter="data">Data Engineering</button>
+    </div>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid">
+
+    <article class="card" data-cat="ai" data-text="supply chain disruption python aws bedrock langchain llm">
+      <div class="cat">AI and Agents</div>
+      <h3>Supply Chain Intelligence Tool</h3>
+      <div class="tags"><span class="tag">Python</span><span class="tag">AWS Bedrock</span><span class="tag">LangChain</span></div>
+      <p>An LLM-powered tool that detects supply chain disruptions and recommends alternative actions, built on simulated data.</p>
+      <div class="more">Designed to help users understand disruptions and what can be done in their place, using simulated supply chain data.</div>
+      <button class="toggle" aria-expanded="false">Show details</button>
+    </article>
+
+    <article class="card" data-cat="ai" data-text="multi-agent stock research crewai python agents">
+      <div class="cat">AI and Agents</div>
+      <h3>Multi-Agent Stock Research Assistant</h3>
+      <div class="tags"><span class="tag">Python</span><span class="tag">CrewAI</span></div>
+      <p>A multi-agent system that autonomously researches a stock ticker, with agents handling data retrieval, analysis, and report synthesis.</p>
+      <div class="more">Agents divide the research work, then combine their findings into a structured report.</div>
+      <button class="toggle" aria-expanded="false">Show details</button>
+    </article>
+
+    <article class="card" data-cat="ml" data-text="hurricane florida real estate random forest svm python">
+      <div class="cat">Machine Learning</div>
+      <h3>Hurricane Impact on Florida Real Estate</h3>
+      <div class="tags"><span class="tag">Python</span><span class="tag">Random Forest</span><span class="tag">SVM</span></div>
+      <p>Analyzed 7 to 8 years of historical property price data to identify depreciation and recovery patterns after hurricanes.</p>
+      <div class="more">Features included hurricane category, geographic location, and pre- and post-hurricane price trends.</div>
+      <button class="toggle" aria-expanded="false">Show details</button>
+    </article>
+
+    <article class="card" data-cat="ml" data-text="covid covid-19 diagnosis densenet boosted random forest deep learning ct scans computer vision">
+      <div class="cat">Machine Learning</div>
+      <h3>Hybrid COVID-19 Diagnosis Model</h3>
+      <div class="tags"><span class="tag">Deep Learning</span><span class="tag">Computer Vision</span><span class="tag">DenseNet</span></div>
+      <p>Combined DenseNet features from CT scans with a Boosted Random Forest on survey data.</p>
+      <div class="more">Applied feature engineering on tabular data and image preprocessing, then evaluated accuracy on publicly available COVID-19 datasets.</div>
+      <button class="toggle" aria-expanded="false">Show details</button>
+    </article>
+
+    <article class="card" data-cat="ml" data-text="federated learning healthcare pytorch flower scikit-learn differential privacy">
+      <div class="cat">Machine Learning</div>
+      <h3>Federated Learning for Healthcare Prediction</h3>
+      <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Flower</span><span class="tag">Scikit-learn</span></div>
+      <p>A privacy-preserving federated learning pipeline with differential privacy, improving accuracy 9% over a centralized baseline.</p>
+      <div class="more">Models were trained across distributed data sources without centralizing the data.</div>
+      <button class="toggle" aria-expanded="false">Show details</button>
+    </article>
+
+    <article class="card" data-cat="data" data-text="smartgrid energy big data pipeline hdfs spark kafka airflow docker">
+      <div class="cat">Data Engineering</div>
+      <h3>SmartGrid Energy Big Data Pipeline (Team)</h3>
+      <div class="tags"><span class="tag">HDFS</span><span class="tag">Spark</span><span class="tag">Kafka</span><span class="tag">Airflow</span><span class="tag">Docker</span></div>
+      <p>An end-to-end big data pipeline for a simulated energy company.</p>
+      <div class="more">Covered HDFS data lake design, Spark batch transformations, Kafka streaming, and Airflow orchestration.</div>
+      <button class="toggle" aria-expanded="false">Show details</button>
+    </article>
+
+  </div>
+  <div class="empty" id="empty">No projects match that search. Try a different tool or category.</div>
+</section>
+
+<section id="skills" class="reveal">
+  <div class="sec-head">
+    <div><h2>Skills</h2><p>Click a highlighted skill to see the projects that use it</p></div>
+  </div>
+  <div class="skills">
+    <div class="skill-box">
+      <h3>AI and Agents</h3>
+      <div class="chips" data-skill-group>
+        <span class="chip static">LangGraph</span>
+        <button class="chip" data-skill="langchain">LangChain</button>
+        <button class="chip" data-skill="crewai">CrewAI</button>
+        <span class="chip static">OpenAI API</span>
+        <span class="chip static">Hugging Face</span>
+        <span class="chip static">Pydantic</span>
+      </div>
+    </div>
+    <div class="skill-box">
+      <h3>Machine Learning</h3>
+      <div class="chips" data-skill-group>
+        <button class="chip" data-skill="pytorch">PyTorch</button>
+        <button class="chip" data-skill="scikit-learn">Scikit-learn</button>
+        <button class="chip" data-skill="computer vision">Computer Vision</button>
+        <button class="chip" data-skill="random forest">Random Forest</button>
+        <span class="chip static">Pandas</span>
+        <span class="chip static">NumPy</span>
+      </div>
+    </div>
+    <div class="skill-box">
+      <h3>Backend, Cloud and Tools</h3>
+      <div class="chips" data-skill-group>
+        <span class="chip static">FastAPI</span>
+        <span class="chip static">REST APIs</span>
+        <button class="chip" data-skill="aws">AWS Bedrock</button>
+        <span class="chip static">AWS SageMaker, Lambda, DynamoDB</span>
+        <button class="chip" data-skill="docker">Docker</button>
+        <span class="chip static">Git</span>
+        <span class="chip static">Azure DevOps</span>
+        <span class="chip static">CI/CD</span>
+        <span class="chip static">React</span>
+        <span class="chip static">GitHub Copilot</span>
+        <span class="chip static">AWS Kiro</span>
+      </div>
+    </div>
+    <div class="skill-box">
+      <h3>Data and Big Data</h3>
+      <div class="chips" data-skill-group>
+        <span class="chip static">Power BI</span>
+        <span class="chip static">SQL</span>
+        <span class="chip static">PostgreSQL</span>
+        <button class="chip" data-skill="spark">Spark</button>
+        <button class="chip" data-skill="kafka">Kafka</button>
+        <button class="chip" data-skill="airflow">Airflow</button>
+        <button class="chip" data-skill="hdfs">HDFS</button>
+      </div>
+    </div>
+    <div class="skill-box">
+      <h3>Languages</h3>
+      <div class="chips" data-skill-group>
+        <button class="chip" data-skill="python">Python</button>
+        <span class="chip static">Java</span>
+        <span class="chip static">TypeScript</span>
+        <span class="chip static">SQL</span>
+        <span class="chip static">PHP</span>
+        <span class="chip static">Perl</span>
+        <span class="chip static">CSS</span>
+      </div>
+    </div>
+  </div>
+  <p class="skill-hint" id="skillHint"></p>
+</section>
+
+<section id="certifications" class="reveal">
+  <div class="sec-head">
+    <div><h2>Certifications</h2><p>Selected courses and credentials</p></div>
+  </div>
+  <div class="certs">
+    <div class="cert"><span class="issuer">AWS Skill Builder</span><strong>AWS Gen AI Practitioner</strong><small>Generative AI on AWS</small></div>
+    <div class="cert"><span class="issuer">AWS SimuLearn</span><strong>AWS AI Practitioner</strong><small>Training badge</small></div>
+    <div class="cert"><span class="issuer">Anthropic</span><strong>AI Fluency: Framework and Foundations</strong><small>Issued Jul 2026</small></div>
+    <div class="cert"><span class="issuer">LinkedIn Learning</span><strong>Build AI Agents and Automate Workflows with n8n</strong><small>Issued Sep 2026</small></div>
+    <div class="cert"><span class="issuer">LinkedIn Learning</span><strong>Deep Learning: Getting Started</strong><small>Issued Nov 2024</small></div>
+    <div class="cert"><span class="issuer">DataCamp</span><strong>Intermediate SQL</strong><small>Issued Feb 2026</small></div>
+    <div class="cert"><span class="issuer">Udemy</span><strong>Complete Python Bootcamp</strong><small>From zero to hero in Python</small></div>
+    <div class="cert"><span class="issuer">Coursera, University of Pennsylvania</span><strong>Microeconomics: The Power of Markets</strong><small>Issued Jul 2024</small></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="two">
+    <div class="panel" id="education">
+      <h3>Education</h3>
+      <ul>
+        <li><strong>MS, Artificial Intelligence and Business Analytics</strong><small>University of South Florida, May 2026</small></li>
+        <li><strong>B.Tech, Computer Science (Minor in AI/ML)</strong><small>Gurunanak Institutions Technical Campus, India, 2019 to 2023</small></li>
+      </ul>
+    </div>
+    <div class="panel" id="community">
+      <h3>Community and Leadership</h3>
+      <ul>
+        <li>Volunteer with Feeding Tampa Bay, Miles for Moffitt, Jabil Cares, and the Muslim Chamber of Commerce.</li>
+        <li>Volunteered with ICNA Relief in collaboration with the Red Cross during hurricane relief, distributing essential supplies and serving food.</li>
+        <li>Playing in the Tampa Cricket League since 2025, a league with nearly 25 teams.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <div class="contact-box">
+    <h2>Let's build something useful</h2>
+    <p>Open to software engineering and AI roles. The best way to reach me is by email.</p>
+    <div class="contact-actions">
+      <a class="btn primary" href="mailto:maazms4518@gmail.com">Email me</a>
+      <button class="btn" id="copyBtn">Copy email</button>
+      <a class="btn" href="https://linkedin.com/in/maaz-masood" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>Maaz Masood | Tampa, FL</footer>
+</main>
+
+<button class="totop" id="totop" aria-label="Back to top">↑</button>
+
+<script>
+(function () {
+  var root = document.documentElement;
+
+  // Theme toggle (dark is default)
+  var themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', function () {
+    var light = root.getAttribute('data-theme') === 'light';
+    root.setAttribute('data-theme', light ? 'dark' : 'light');
+    themeBtn.textContent = light ? '🌙' : '☀️';
+  });
+
+  // Typing effect
+  var roles = ['Building agentic AI systems', 'Designing human-in-the-loop workflows', 'Turning data into decisions', 'Learning something new every week'];
+  var typed = document.getElementById('typed');
+  var r = 0, c = 0, deleting = false;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tick() {
+    var word = roles[r];
+    if (reduce) { typed.textContent = roles[0]; return; }
+    if (!deleting) {
+      c++;
+      typed.textContent = word.slice(0, c);
+      if (c === word.length) { deleting = true; return setTimeout(tick, 1600); }
+      return setTimeout(tick, 55);
+    }
+    c--;
+    typed.textContent = word.slice(0, c);
+    if (c === 0) { deleting = false; r = (r + 1) % roles.length; return setTimeout(tick, 300); }
+    setTimeout(tick, 28);
+  }
+  tick();
+
+  // Scroll progress, back-to-top, and active nav
+  var progress = document.getElementById('progress');
+  var totop = document.getElementById('totop');
+  window.addEventListener('scroll', function () {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    totop.classList.toggle('show', window.scrollY > 500);
+  }, { passive: true });
+  totop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  var navLinks = document.querySelectorAll('.links a');
+  var sections = ['experience', 'projects', 'skills', 'certifications', 'community', 'contact'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  if ('IntersectionObserver' in window) {
+    var navObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          navLinks.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { navObs.observe(s); });
+
+    // Reveal on scroll
+    var revObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { revObs.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // Project search, category filter, and count
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var tabs = document.querySelectorAll('.tab');
+  var search = document.getElementById('search');
+  var count = document.getElementById('count');
+  var empty = document.getElementById('empty');
+  var activeFilter = 'all';
+  var activeSkill = null;
+
+  function applyFilters() {
+    var q = search.value.trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function (card) {
+      var catOk = activeFilter === 'all' || card.getAttribute('data-cat') === activeFilter;
+      var text = card.getAttribute('data-text') + ' ' + card.textContent.toLowerCase();
+      var qOk = !q || q.split(/\s+/).every(function (w) { return text.indexOf(w) !== -1; });
+      var skillOk = !activeSkill || (card.getAttribute('data-text') || '').indexOf(activeSkill) !== -1;
+      var ok = catOk && qOk && skillOk;
+      card.hidden = !ok;
+      if (ok) shown++;
+    });
+    count.textContent = 'Showing ' + shown + ' of ' + cards.length + ' projects';
+    empty.style.display = shown === 0 ? 'block' : 'none';
+  }
+
+  tabs.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeFilter = btn.getAttribute('data-filter');
+      tabs.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      applyFilters();
+    });
+  });
+  search.addEventListener('input', applyFilters);
+
+  // Expand card details
+  cards.forEach(function (card) {
+    var btn = card.querySelector('.toggle');
+    btn.addEventListener('click', function () {
+      var open = card.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Hide details' : 'Show details';
+    });
+  });
+
+  // Skill chips: filter projects and show a hint
+  var hint = document.getElementById('skillHint');
+  document.querySelectorAll('button.chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var skill = chip.getAttribute('data-skill');
+      var wasActive = chip.classList.contains('active');
+      document.querySelectorAll('.chip.active').forEach(function (c) { c.classList.remove('active'); });
+      if (wasActive) {
+        activeSkill = null;
+        hint.textContent = '';
+      } else {
+        chip.classList.add('active');
+        activeSkill = skill;
+        hint.textContent = 'Showing projects that use ' + chip.textContent + '. Click it again to clear.';
+        document.getElementById('projects').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
+      applyFilters();
+    });
+  });
+
+  applyFilters();
+
+  // Copy email
+  var copyBtn = document.getElementById('copyBtn');
+  copyBtn.addEventListener('click', function () {
+    var email = 'maazms4518@gmail.com';
+    var done = function () {
+      copyBtn.textContent = 'Email copied';
+      copyBtn.classList.add('copied');
+      setTimeout(function () { copyBtn.textContent = 'Copy email'; copyBtn.classList.remove('copied'); }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(done, done);
+    } else {
+      done();
+    }
+  });
+})();
+</script>
+</body>
+</html>
